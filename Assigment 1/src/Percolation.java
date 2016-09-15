@@ -39,7 +39,7 @@ public class Percolation {
             percUF.union(tileValue, tileValue + n);
         }
         if (tileValue >= (n * (n - 1))) {
-            int virtualBottom = (n * n) + 1;
+        	int virtualBottom = (n * n) + 1;
             percUF.union(virtualBottom, tileValue);
         }
     }
@@ -48,8 +48,9 @@ public class Percolation {
         --i;
         --j;
         int n = percolationGrid.length;
-        if (i < 0 || i >= n)
+        if (i < 0 || i >= n || j < 0 || j >= n)
             return false;
+        
             //throw new IndexOutOfBoundsException("Index Out Of Bounds");
         return percolationGrid[i][j];
     }
@@ -60,8 +61,8 @@ public class Percolation {
         int n = percolationGrid.length;
         int tileValue = (n * i) + j;
         boolean conectedToVirtualTop = false;
-        if (i < 0 || i >= n)
-            throw new IndexOutOfBoundsException("Index Out Of Bounds" + i + " " + j);
+        if (i < 0 || i >= n || j < 0 || j >= n)
+            return false;
         if (percolationGrid[i][j]) {
             if (tileValue < n)
                 return true;
@@ -77,12 +78,12 @@ public class Percolation {
             if (i + 1 < n && percolationGrid[i + 1][j] && !conectedToVirtualTop) {
                 conectedToVirtualTop = percUF.connected((n * n), tileValue + n);
             }
-            if (i == n - 1) {
-                if (!isFull(i, j + 1) && !isOpen(i + 1, j + 2) && !isOpen(i + 1, j)) {
-                    System.out.println(i + " " + (j+ 1));
+            /*if (i == n - 1) {
+            	if (!isFull(i + 1, j + 2)) {
+                    System.out.println(i + " " + (j));
                     conectedToVirtualTop = false;
                 }
-            }
+            }*/
         }
         return conectedToVirtualTop;
     }

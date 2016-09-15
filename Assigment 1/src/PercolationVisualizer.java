@@ -25,7 +25,7 @@ import edu.princeton.cs.algs4.StdDraw;
 public class PercolationVisualizer {
 
     // delay in miliseconds (controls animation speed)
-    private static final int DELAY = 30;
+    private static final int DELAY = 80;
 
     // draw n-by-n percolation system
     public static void draw(Percolation perc, int n) {
@@ -64,7 +64,7 @@ public class PercolationVisualizer {
 
     public static void main(String[] args) {
         
-        File file = new File("/Users/JuanPablo/Downloads/percolation/input20.txt");
+        File file = new File("/Users/JuanPablo/Downloads/percolation/input10.txt");
         System.out.println(file.exists());
         
         In in = new In(file);      // input file
