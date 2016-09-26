@@ -8,6 +8,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int tail = 0;
     private int qSize = 0;
 
+    @SuppressWarnings("unchecked")
     public RandomizedQueue() {
         s = (Item[]) new Object[1];
     }
@@ -58,6 +59,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void resize(int capacity) {
+        @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[capacity];
         for (int i = 0; i < tail; ++i)
             copy[i] = s[i];
