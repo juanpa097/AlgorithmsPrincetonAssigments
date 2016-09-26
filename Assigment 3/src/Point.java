@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 import java.util.Comparator;
-import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.*;
 
 public class Point implements Comparable<Point> {
 
@@ -59,8 +59,14 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        return 0;
-        /* YOUR CODE HERE */
+        if (this.compareTo(that) == 0) return Double.NEGATIVE_INFINITY;
+        double deltaY = this.y - that.y;
+        double deltaX = this.x - that.x;
+        if (deltaX == 0) return Double.POSITIVE_INFINITY;
+        else { 
+            if (Math.abs(deltaY / deltaX) == 0) return +0.0;
+            else return (deltaY / deltaX);
+        }
     }
 
     /**
@@ -76,8 +82,29 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
+        if (this.y < that.y) return -1;
+        if (this.y == that.y && this.x == that.x) return 0;
+        if (this.y > that.y) return +1;
+        else if (this.y == that.y) {
+            if (this.x < that.x) return -1;
+            else if (this.x > that.x) return +1;
+        }
         return 0;
-        /* YOUR CODE HERE */
+    }
+    
+    private class SlopeComparator implements Comparator<Point> {
+
+        @Override
+        public int compare(Point point1, Point point2) {
+            double slopeDiff = slopeTo(point1) - slopeTo(point2);
+            if (slopeDiff > 0) {
+                return 1;
+            } else if (slopeDiff < 0) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }  
     }
 
     /**
@@ -87,10 +114,8 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        return null;
-        /* YOUR CODE HERE */
+        return new SlopeComparator();
     }
-
 
     /**
      * Returns a string representation of this point.
@@ -108,6 +133,32 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        /* YOUR CODE HERE */
+
+        // read the n points from a file
+        In in = new In(args[0]);
+        int n = in.readInt();
+        Point[] points = new Point[n];
+        for (int i = 0; i < n; i++) {
+            int x = in.readInt();
+            int y = in.readInt();
+            points[i] = new Point(x, y);
+        }
+
+        // draw the points
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (Point p : points) {
+            p.draw();
+        }
+        StdDraw.show();
+
+        // print and draw the line segments
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
+        for (LineSegment segment : collinear.segments()) {
+            StdOut.println(segment);
+            segment.draw();
+        }
+        StdDraw.show();
     }
 }

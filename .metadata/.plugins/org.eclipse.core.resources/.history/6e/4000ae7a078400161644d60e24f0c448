@@ -1,0 +1,77 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import edu.princeton.cs.algs4.Merge;
+
+public class BruteCollinearPoints {
+    private LineSegment [] segments;
+    private int [][] permutationOfFour;
+    public BruteCollinearPoints(Point [] points) {
+        if (points == null) 
+            throw new java.lang.NullPointerException();
+        if (checkDuplicates(points)) {
+            throw new java.lang.IllegalArgumentException();
+        }
+        Point [] sortedPoints = points;
+        Merge.sort(sortedPoints);
+        permutationOfFour = new int[][]{
+            { 1,2,3,4 },       
+            { 2,1,3,4 },       
+            { 3,2,1,4 },       
+            { 4,2,3,1 },
+            { 1,2,4,3 }, 
+            { 2,1,4,3 },
+            { 3,2,4,1 },
+            { 4,2,1,3 },
+            { 1,3,2,4 },
+            { 2,3,1,4 },
+            { 3,1,2,4 },
+            { 4,3,2,1 },
+            { 1,3,4,2 },
+            { 2,3,4,1 },
+            { 3,1,4,2 },
+            { 4,3,1,2 },
+            { 1,4,2,3 },
+            { 2,4,1,3 },
+            { 3,4,2,1 },
+            { 4,1,2,3 },
+            { 1,4,3,2 },
+            { 2,4,3,1 },
+            { 3,4,1,2 },
+            { 4,1,3,2 }  
+        };
+        Merge.sort(points);
+        ArrayList<LineSegment> segmentsList = new ArrayList<LineSegment>();
+        for (int i = 0; i < permutationOfFour.length; ++i) {
+               int p = permutationOfFour[i][0];
+               int q = permutationOfFour[i][1];
+               int r = permutationOfFour[i][2];
+               int s = permutationOfFour[i][3];
+               if (sortedPoints[p].slopeTo(sortedPoints[q]) 
+                       == sortedPoints[p].slopeTo(sortedPoints[r]) 
+                       && sortedPoints[p].slopeTo(sortedPoints[q])
+                       == sortedPoints[p].slopeTo(sortedPoints[s])) {
+                   segmentsList.add(new LineSegment(sortedPoints[p], sortedPoints[s]));
+               }
+        }
+        
+        segments = segmentsList.toArray(new LineSegment[segmentsList.size()]);
+        
+        
+    }
+    
+    public int numberOfSegments() {
+        return segments.length;
+    }
+    
+    public LineSegment[] segments() {
+        return Arrays.copyOf(segments, numberOfSegments());
+    }
+    private boolean checkDuplicates (Point [] points) {
+        for (int i = 0; i < points.length; ++i) 
+            for (int j = 0; j < points.length; ++j) 
+                if (points[i].compareTo(points[j]) == 0)
+                    return false;
+        return true;
+    }
+}
