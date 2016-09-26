@@ -1,0 +1,12 @@
+
+public class Subset {
+	public static void main (String[] args) {
+		int n = Integer.parseInt(args[1]);
+		RandomizedQueue<String> mDeque = new RandomizedQueue<String>(n);
+		while (StdIn.hasNextLine()) {
+		      String line = StdIn.readLine();
+		      StdOut.println(line);
+		  }
+	}
+
+}

@@ -1,0 +1,28 @@
+import java.util.StringTokenizer;
+
+import edu.princeton.cs.algs4.StdIn;
+
+public class Subset {
+    public static void main(String[] args) {
+        int n = Integer.parseInt(args[0]);
+        String line = "";
+        RandomizedQueue<String> mDeque = new RandomizedQueue<String>();
+        // while (StdIn.hasNextLine()) {
+        line = StdIn.readLine();
+        // }
+
+        StringTokenizer st = new StringTokenizer(line, ",");
+        while (st.hasMoreTokens()) {
+            mDeque.enqueue(st.nextToken());
+        }
+
+        int cont = 0;
+        for (String s : mDeque) {
+            if (cont == n)
+                break;
+            System.out.println(s);
+            ++cont;
+        }
+    }
+
+}

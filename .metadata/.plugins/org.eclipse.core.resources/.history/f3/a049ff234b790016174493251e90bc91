@@ -1,0 +1,119 @@
+import java.util.Iterator;
+import edu.princeton.cs.algs4.*;
+public class Deque<Item> implements Iterable<Item> {
+	
+	private Node first;
+	private Node last;
+	private int dequeSize;
+	
+	private class Node {
+		Node(Item itemVal) {
+			item = itemVal;
+			next = null;
+			prev = null;
+		}
+		Item item;
+		Node next;
+		Node prev;
+	}
+	
+	public Deque() {
+		first = null;
+		last = null;
+		dequeSize = 0;
+	}
+	
+	public boolean isEmpty() {
+		return (first == null || last == null);
+	}
+	
+	public int size() {
+		return dequeSize;
+	}
+	
+	public void addFirst(Item item) {
+		if (item == null)
+			throw new java.util.NoSuchElementException();
+		Node newNode = new Node(item);
+		if (first == null && last == null) {
+			first = last = newNode;
+			last.prev = first;
+		} else {
+			newNode.next = first;
+			first.prev = newNode;
+			first = newNode;
+		}
+		++dequeSize;
+	}
+	
+	public void addLast(Item item) {
+		if (item == null)
+			throw new java.util.NoSuchElementException();
+		Node newNode = new Node(item);
+		if (first == null && last == null) {
+			first = last = newNode;
+			last.prev = first;
+		} else {
+			last.next = newNode;
+			newNode.prev = last;
+			last = newNode;
+		}
+		++dequeSize;
+	}
+	
+	
+	public Item removeFirst() {
+		if (isEmpty())
+			throw new java.util.NoSuchElementException();
+		Item item = first.item;
+		first = first.next;
+		--dequeSize;
+		return item;
+	}
+	
+	public Item removeLast() {
+		Item item = last.item;
+		last = last.prev;
+		--dequeSize;
+		return item;
+	}
+
+	@Override
+	public Iterator<Item> iterator() {
+		return new ListIterator();
+	}
+	
+	private class ListIterator implements Iterator<Item> {
+		private Node current = first;
+		@Override
+		public boolean hasNext() {
+			return current != null;
+		}
+
+		@Override
+		public Item next() {
+			Item item = current.item;
+			current = current.next;
+			return item;
+		}
+		
+		@Override
+		public void remove() {
+			throw new java.lang.UnsupportedOperationException();
+		}
+	}
+	
+	public static void main(String[] args) {
+		Deque<Integer> mDeque = new Deque<Integer>();
+		int n = 0;
+		while (true) {
+			n = StdIn.readInt();
+			if (n == 0) break;
+			mDeque.addFirst(n);
+		}
+		for (Integer i: mDeque) {
+			for (Integer j: mDeque) 
+				System.out.println(i + " " + j);
+		}
+	}
+}
