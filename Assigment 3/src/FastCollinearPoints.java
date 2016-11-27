@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.princeton.cs.algs4.*;
-
 public class FastCollinearPoints {
     
     private LineSegment [] segments;
